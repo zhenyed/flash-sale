@@ -1,0 +1,90 @@
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3307/flash_sale?useSSL=false
+#    username: root
+#    password: i-Sprint2011
+#    driver-class-name: com.mysql.jdbc.Driver
+
+#spring:
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    schema: classpath:db/schema-h2.sql
+#    data: classpath:db/data-h2.sql
+#    url: jdbc:h2:mem:test
+#    username: root
+#    password: test
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下。
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: io.github.zhenyed.api.user.dataobject
+  global-config:
+    db-config:
+      id-type: auto
+
+datasource:
+  default:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3307/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;rewriteBatchedStatements=true&amp;autoReconnect=true&amp;failOverReadOnly=false
+    username: root
+    password: root
+    test-on-borrow: false
+    test-while-idle: true
+    time-between-eviction-runs-millis: 18800
+    filters: mergeStat,wall,slf4j
+    connectionProperties: druid.stat.slowSqlMillis=2000
+    validationQuery: SELECT 1
+    poolPreparedStatements: true
+  user:
+    master:
+      user1:
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3307/user_1?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;rewriteBatchedStatements=true&amp;autoReconnect=true&amp;failOverReadOnly=false
+        username: root
+        password: root
+        test-on-borrow: false
+        test-while-idle: true
+        time-between-eviction-runs-millis: 18800
+        filters: mergeStat,wall,slf4j
+        connectionProperties: druid.stat.slowSqlMillis=2000
+        validationQuery: SELECT 1
+        poolPreparedStatements: true
+      user2:
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3307/user_2?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;rewriteBatchedStatements=true&amp;autoReconnect=true&amp;failOverReadOnly=false
+        username: root
+        password: root
+        test-on-borrow: false
+        test-while-idle: true
+        time-between-eviction-runs-millis: 18800
+        filters: mergeStat,wall,slf4j
+        connectionProperties: druid.stat.slowSqlMillis=2000
+        validationQuery: SELECT 1
+        poolPreparedStatements: true
+    slave:
+      user1:
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3307/user_slave_1?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;rewriteBatchedStatements=true&amp;autoReconnect=true&amp;failOverReadOnly=false
+        username: root
+        password: root
+        test-on-borrow: false
+        test-while-idle: true
+        time-between-eviction-runs-millis: 18800
+        filters: mergeStat,wall,slf4j
+        connectionProperties: druid.stat.slowSqlMillis=2000
+        validationQuery: SELECT 1
+        poolPreparedStatements: true
+      user2:
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3307/user_slave_2?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;rewriteBatchedStatements=true&amp;autoReconnect=true&amp;failOverReadOnly=false
+        username: root
+        password: root
+        test-on-borrow: false
+        test-while-idle: true
+        time-between-eviction-runs-millis: 18800
+        filters: mergeStat,wall,slf4j
+        connectionProperties: druid.stat.slowSqlMillis=2000
+        validationQuery: SELECT 1
+        poolPreparedStatements: true

@@ -1,0 +1,27 @@
+DROP TABLE IF EXISTS order1;
+
+CREATE TABLE order1 (
+  id            INT(11) NOT NULL AUTO_INCREMENT COMMENT '订单编号',
+  user_id       INT(11) NOT NULL COMMENT '用户编号',
+  total         INT(11) NOT NULL COMMENT '购买价格',
+  status        SMALLINT(4) NOT NULL COMMENT '订单状态：待付款0、已付款1、订单超时2',
+  create_time   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  update_time   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  deleted       SMALLINT(1) NOT NULL DEFAULT 0 COMMENT '删除状态',
+  PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS order_item;
+
+CREATE TABLE order_item (
+  id            INT(11) NOT NULL AUTO_INCREMENT,
+  order_id      INT(11) NOT NULL COMMENT '订单编号',
+  product_id    INT(11) NOT NULL COMMENT '产品编号',
+  quantity      INT(11) NOT NULL COMMENT '购买数量',
+  single_price  INT(11) NOT NULL COMMENT '商品单价',
+  total_price   INT(11) NOT NULL COMMENT '总价格',
+  create_time   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  update_time   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  deleted       SMALLINT(1) NOT NULL DEFAULT 0 COMMENT '删除状态',
+  PRIMARY KEY (id)
+);

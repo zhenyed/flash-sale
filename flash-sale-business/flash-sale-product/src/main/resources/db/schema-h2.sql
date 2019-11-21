@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS product;
+
+CREATE TABLE product
+(
+  id            INT(11) NOT NULL AUTO_INCREMENT COMMENT '商品编号',
+  name          VARCHAR(50) NOT NULL COMMENT '商品名称',
+  price         INT(11) NOT NULL COMMENT '价格',
+  quantity      INT(11) NOT NULL COMMENT '库存',
+  create_time   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  update_time   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+  deleted       SMALLINT(1) NOT NULL DEFAULT 0 COMMENT '是否删除',
+  PRIMARY KEY (id)
+);

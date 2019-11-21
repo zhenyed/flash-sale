@@ -1,0 +1,15 @@
+server:
+  port: 8002
+
+spring:
+  application:
+    name: flash-sale-eureka
+  profiles:
+    active: peer2
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8003/eureka/,http://localhost:8001/eureka/
