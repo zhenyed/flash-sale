@@ -6,8 +6,8 @@ spring:
     name: flash-sale-eureka
 
 eureka:
-#  server:
-#    enable-self-preservation: true
+  server:
+    enable-self-preservation: false
   instance:
     hostname: localhost
 #    lease-expiration-duration-in-seconds: 60

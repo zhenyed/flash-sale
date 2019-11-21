@@ -39,7 +39,7 @@ public class RedisAutoConfigure {
     @Bean
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<Object, Object> template = new RedisTemplate<>();
-        FastJsonRedisSerializer fastJsonRedisSerializer = new FastJsonRedisSerializer(CommonResult.class);
+        FastJsonRedisSerializer fastJsonRedisSerializer = new FastJsonRedisSerializer(Object.class);
         // value值的序列化采用 fastJsonRedisSerializer
         template.setValueSerializer(fastJsonRedisSerializer);
         template.setHashValueSerializer(fastJsonRedisSerializer);
