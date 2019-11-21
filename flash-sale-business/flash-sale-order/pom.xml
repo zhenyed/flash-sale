@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>flash-sale-order</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
 
     <build>
         <plugins>

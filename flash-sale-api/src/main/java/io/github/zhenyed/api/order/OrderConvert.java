@@ -4,23 +4,36 @@ import io.github.zhenyed.api.order.dataobject.OrderDO;
 import io.github.zhenyed.api.order.dataobject.OrderItemDO;
 import io.github.zhenyed.api.order.vo.OrderItemVO;
 import io.github.zhenyed.api.order.vo.OrderVO;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Mapper
-public interface OrderConvert {
+public class OrderConvert {
 
-    OrderConvert INSTANCE = Mappers.getMapper(OrderConvert.class);
+    public static OrderVO convert(OrderDO orderDO) {
+        return new OrderVO()
+                .setId(orderDO.getId())
+                .setUserId(orderDO.getUserId())
+                .setUpdateTime(orderDO.getUpdateTime())
+                .setCreateTime(orderDO.getCreateTime())
+                .setStatus(orderDO.getStatus())
+                .setTotal(orderDO.getTotal());
+    }
 
-    @Mappings({})
-    OrderVO convert(OrderDO orderDO);
+    public static OrderItemVO convert(OrderItemDO orderItemDO) {
+        return new OrderItemVO()
+                .setOrderId(orderItemDO.getOrderId())
+                .setProductId(orderItemDO.getProductId())
+                .setQuantity(orderItemDO.getQuantity())
+                .setSinglePrice(orderItemDO.getSinglePrice())
+                .setTotalPrice(orderItemDO.getTotalPrice());
+    }
 
-    @Mappings({})
-    OrderItemVO convert(OrderItemDO orderItemDO);
-
-    @Mappings({})
-    List<OrderItemVO> convert(List<OrderItemDO> orderItems);
+    public static List<OrderItemVO> convert(List<OrderItemDO> orderItems) {
+        List<OrderItemVO> vo = new ArrayList<>();
+        for(OrderItemDO itemVO : orderItems) {
+            vo.add(OrderConvert.convert(itemVO));
+        }
+        return vo;
+    }
 }

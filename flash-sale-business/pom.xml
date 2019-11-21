@@ -96,7 +96,6 @@
         <dependency>
             <groupId>io.github.zhenyed</groupId>
             <artifactId>flash-sale-api</artifactId>
-            <version>1.0</version>
         </dependency>
 
 

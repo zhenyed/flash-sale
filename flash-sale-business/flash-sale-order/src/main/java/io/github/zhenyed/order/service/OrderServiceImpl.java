@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +39,8 @@ public class OrderServiceImpl implements OrderService {
     private RedisTemplate redisTemplate;
     @Autowired
     private RedisDistributedLock distributedLock;
+//    @Autowired
+//    private RedissonClient redissonClient;
 
     @Override
     @Cacheable(value="order", key="#orderId")
@@ -51,9 +52,9 @@ public class OrderServiceImpl implements OrderService {
                          OrderErrorCodeEnum.ORDER_NOT_EXISTENT.getMessage());
         }
 
-        OrderVO orderVO = OrderConvert.INSTANCE.convert(orderDO);
+        OrderVO orderVO = OrderConvert.convert(orderDO);
         List<OrderItemDO> orderItems = orderItemMapper.selectList(new QueryWrapper<>(new OrderItemDO()).eq("order_id", orderId));
-        orderVO.setOrderItems(OrderConvert.INSTANCE.convert(orderItems));
+        orderVO.setOrderItems(OrderConvert.convert(orderItems));
         return success(orderVO);
     }
 
@@ -84,7 +85,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
     public CommonResult<OrderVO> createOrder(Integer userId, Integer productId, Integer quantity) {
         String productStockKey = "product:" + productId + ":stock";
         String productStockLock = "product:" + productId + ":stock:lock";
@@ -113,7 +113,8 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 3. 分布式锁
-        distributedLock.lock(productStockLock);
+//        redissonClient.getLock(productStockLock).lock(3000, TimeUnit.MILLISECONDS);
+//        distributedLock.lock(productStockLock);
         // 3.1 再次获取库存
         stock = (Integer) redisTemplate.opsForValue().get(productStockKey);
         if(stock == null ||stock.intValue() <= 0) {
@@ -145,14 +146,15 @@ public class OrderServiceImpl implements OrderService {
                 .setTotalPrice(quantity * productInfo.getPrice());
         //前提：设置user product 唯一索引，避免两个订单同时生成
         orderItemMapper.insert(orderItemDO);
-        OrderVO orderVO = OrderConvert.INSTANCE.convert(orderByDb);
-        orderVO.setOrderItems(Arrays.asList(OrderConvert.INSTANCE.convert(orderItemDO)));
+        OrderVO orderVO = OrderConvert.convert(orderByDb);
+        orderVO.setOrderItems(Arrays.asList(OrderConvert.convert(orderItemDO)));
 
         // 减少 DB 库存(限制库存 > 0)
         productApiService.reduceQuantity(productInfo.getId(), 1);
         Long result = redisTemplate.opsForSet().add(productStockSetKey, userId);
 
-        distributedLock.releaseLock(productStockKey);
+//        redissonClient.getLock(productStockLock).unlock();
+//        distributedLock.releaseLock(productStockKey);
         return success(orderVO);
     }
 }

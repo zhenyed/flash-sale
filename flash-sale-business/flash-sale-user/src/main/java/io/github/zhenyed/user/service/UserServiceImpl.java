@@ -25,6 +25,6 @@ public class UserServiceImpl implements UserService {
             return error(UserErrorCodeEnum.USER_NOT_EXISTS.getCode(),
                          UserErrorCodeEnum.USER_NOT_EXISTS.getMessage());
         }
-        return success(UserConvert.INSTANCE.convert(userDO));
+        return success(UserConvert.convert(userDO));
     }
 }

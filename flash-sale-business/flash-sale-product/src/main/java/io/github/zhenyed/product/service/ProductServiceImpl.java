@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
                     ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getMessage()
             );
         }
-        return CommonResult.success(ProductConvert.INSTANCE.convert(productDO));
+        return CommonResult.success(ProductConvert.convert(productDO));
     }
 
     @Override
@@ -47,6 +47,6 @@ public class ProductServiceImpl implements ProductService {
 
         productDO.setQuantity(productDO.getQuantity() - quantity);
         productMapper.reduceStockById(productDO);
-        return success(ProductConvert.INSTANCE.convert(productDO));
+        return success(ProductConvert.convert(productDO));
     }
 }

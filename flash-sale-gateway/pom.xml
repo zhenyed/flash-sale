@@ -11,6 +11,7 @@
     <artifactId>flash-sale-gateway</artifactId>
     <description>网关服务</description>
     <version>1.0</version>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
