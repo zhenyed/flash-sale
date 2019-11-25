@@ -1,4 +1,4 @@
-package io.github.zhenyed.product;
+package io.github.zhenyed.core;
 
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.RandomRule;
@@ -16,10 +16,10 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableCircuitBreaker
 @EnableHystrixDashboard
 @SpringBootApplication
-@ComponentScan(basePackages = {"io.github.zhenyed.product", "io.github.zhenyed.api"})
-public class ProductApplication {
+@ComponentScan(basePackages = {"io.github.zhenyed.core", "io.github.zhenyed.api"})
+public class CoreApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ProductApplication.class, args);
+        SpringApplication.run(CoreApplication.class, args);
     }
 
     @Bean

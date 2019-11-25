@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.zhenyed.api.lock.RedisAutoConfigure
+io.github.zhenyed.api.redis.RedissonAutoConfigure
+#  io.github.zhenyed.api.lock.RedisAutoConfigure
+

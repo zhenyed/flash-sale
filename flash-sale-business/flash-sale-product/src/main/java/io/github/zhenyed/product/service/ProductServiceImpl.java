@@ -6,9 +6,8 @@ import io.github.zhenyed.api.product.ProductConvert;
 import io.github.zhenyed.api.product.dataobject.ProductDO;
 import io.github.zhenyed.api.product.vo.ProductVO;
 import io.github.zhenyed.product.mapper.ProductMapper;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import static io.github.zhenyed.api.common.vo.CommonResult.error;
@@ -19,6 +18,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Override
     public CommonResult<ProductVO> getProductInfo(Integer id) {
@@ -29,11 +30,11 @@ public class ProductServiceImpl implements ProductService {
                     ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getMessage()
             );
         }
-        return CommonResult.success(ProductConvert.convert(productDO));
+        return success(ProductConvert.convert(productDO));
     }
 
     @Override
-    public CommonResult<ProductVO> reduceProductQuantity(Integer id, Integer quantity) {
+    public CommonResult<Boolean> reduceProductQuantity(Integer id, Integer quantity) {
         ProductDO productDO = productMapper.selectById(id);
         if (productDO == null) {
             return error(ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getCode(),
@@ -46,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         productDO.setQuantity(productDO.getQuantity() - quantity);
-        productMapper.reduceStockById(productDO);
-        return success(ProductConvert.convert(productDO));
+        int i = productMapper.reduceStockById(productDO);
+        return success(i > 0 ? Boolean.TRUE : Boolean.FALSE);
     }
 }

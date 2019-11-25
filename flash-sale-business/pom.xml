@@ -17,6 +17,7 @@
         <module>flash-sale-order</module>
         <module>flash-sale-product</module>
         <module>sharding-user</module>
+        <module>flash-sale-core</module>
     </modules>
 
     <dependencies>
@@ -97,17 +98,5 @@
             <groupId>io.github.zhenyed</groupId>
             <artifactId>flash-sale-api</artifactId>
         </dependency>
-
-
-        <!-- Redis -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.redisson</groupId>-->
-<!--            <artifactId>redisson-spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
-
     </dependencies>
 </project>

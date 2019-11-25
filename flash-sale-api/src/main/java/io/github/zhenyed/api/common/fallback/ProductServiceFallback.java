@@ -13,7 +13,7 @@ public class ProductServiceFallback implements ProductApiService {
     }
 
     @Override
-    public CommonResult<ProductVO> reduceQuantity(Integer id, Integer quantity) {
+    public CommonResult<Boolean> reduceQuantity(Integer id, Integer quantity) {
         return null;
     }
 }

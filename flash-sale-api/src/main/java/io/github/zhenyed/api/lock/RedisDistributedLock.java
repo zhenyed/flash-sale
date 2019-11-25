@@ -1,6 +1,7 @@
 package io.github.zhenyed.api.lock;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 @Slf4j
 @Component
+@Profile("!redisson")
 public class RedisDistributedLock extends AbstractDistributedLock {
     @Resource
     private RedisTemplate<Object, Object> redisTemplate;

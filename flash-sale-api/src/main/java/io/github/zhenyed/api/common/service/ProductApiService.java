@@ -18,6 +18,6 @@ public interface ProductApiService {
 
     @PostMapping("/product-api/product/updatequantity")
     @ApiOperation("更新产品库存")
-    CommonResult<ProductVO> reduceQuantity(@RequestParam("id") Integer id,
-                                           @RequestParam("quantity") Integer quantity);
+    CommonResult<Boolean> reduceQuantity(@RequestParam("id") Integer id,
+                                         @RequestParam("quantity") Integer quantity);
 }

@@ -1,11 +1,11 @@
 server:
-  port: 7002
+  port: 7009
   servlet:
-    context-path: /product-api/
+    context-path: /core-api/
 
 spring:
   application:
-    name: flash-sale-product
+    name: flash-sale-core
   rabbitmq:
     host: localhost
     port: 5672
@@ -37,6 +37,11 @@ spring:
 #        port: 8719
 #        dashboard: localhost:8002
 
+logging:
+  file: rabbitmq-service.log
+  level:
+    com.rabbitmq: debug
+
 eureka:
   client:
     service-url:
@@ -48,7 +53,7 @@ feign:
   client:
     default-config:
       requestInterceptors:
-        - io.github.zhenyed.product.interceptor.TokenRelayRequestIntecepor
+        - io.github.zhenyed.order.interceptor.TokenRelayRequestIntecepor
   httpclient:
     # 让feign使用apache httpclient做请求；而不是默认的urlconnection
     enabled: true
@@ -59,15 +64,15 @@ feign:
 
 swagger:
   enable: true
-  title: 商品子系统
-  description: 商品子系统
+  title: 秒杀子系统
+  description: 秒杀子系统
   version: 1.0.0
-  base-package: io.github.zhenyed.product.controller
+  base-package: io.github.zhenyed.core.controller
 
 management:
   endpoints:
     web:
       exposure:
-        include: '*'# health,info,env,metrics,prometheus
+        include: '*' # health,info,env,metrics,prometheus
     metrics:
       enabled: true

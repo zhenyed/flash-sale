@@ -53,13 +53,13 @@ public class OrderController {
         return commonResult;
     }
 
-    @CheckLogin
-    @PostMapping("confirm_create_order")
-    @ApiOperation("创建订单")
-    public CommonResult<OrderVO> createOrder(@RequestParam("productId") Integer productId,
-                                             @RequestParam("userId") Integer userId) {
-        //Integer userId = 1; //UserSecurityContextHolder.getContext().getUserId();
-        CommonResult<OrderVO> orderResult = orderService.createOrder(userId, productId, 1);
-        return orderResult;
-    }
+//    @CheckLogin
+//    @PostMapping("confirm_create_order")
+//    @ApiOperation("创建订单")
+//    public CommonResult<OrderVO> createOrder(@RequestParam("productId") Integer productId,
+//                                             @RequestParam("userId") Integer userId) {
+//        //Integer userId = 1; //UserSecurityContextHolder.getContext().getUserId();
+//        CommonResult<OrderVO> orderResult = orderService.createOrder(userId, productId, 1);
+//        return orderResult;
+//    }
 }

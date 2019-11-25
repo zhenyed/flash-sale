@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>flash-sale-product</artifactId>
+    <description>商品服务</description>
     <version>1.0</version>
     <packaging>jar</packaging>
 

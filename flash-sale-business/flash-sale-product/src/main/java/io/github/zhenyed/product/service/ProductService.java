@@ -6,5 +6,5 @@ import io.github.zhenyed.api.product.vo.ProductVO;
 public interface ProductService {
     CommonResult<ProductVO> getProductInfo(Integer id);
 
-    CommonResult<ProductVO> reduceProductQuantity(Integer id, Integer quantity);
+    CommonResult<Boolean> reduceProductQuantity(Integer id, Integer quantity);
 }

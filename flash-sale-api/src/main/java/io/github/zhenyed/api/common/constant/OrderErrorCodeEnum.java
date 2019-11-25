@@ -44,6 +44,9 @@ public enum OrderErrorCodeEnum {
 
     // 工具类服务  1008004000
     ORDER_INVOKING_FAIL(1008004000, "订单服务调用失败!"),
+
+    // 秒杀服务 1008005000
+    ORDER_FINISHED(1008005001, "秒杀服务结束!"),
     ;
 
     private final int code;

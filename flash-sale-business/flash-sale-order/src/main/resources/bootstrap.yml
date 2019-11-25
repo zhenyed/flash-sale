@@ -6,6 +6,28 @@ server:
 spring:
   application:
     name: flash-sale-order
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    publisher-confirms: true  # 消息发送到交换机确认机制,是否确认回调
+    publisher-returns: true
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 10
+        prefetch: 1
+        auto-startup: true
+        default-requeue-rejected: true
+    template:
+      retry:
+        enabled: true
+        initial-interval: 1000
+        max-attempts: 3
+        max-interval: 10000
+        multiplier: 1
 #  cloud:
 #    nacos:
 #      discovery:
@@ -14,6 +36,11 @@ spring:
 #      transport:
 #        port: 8719
 #        dashboard: localhost:8002
+
+logging:
+  file: rabbitmq-service.log
+  level:
+    com.rabbitmq: debug
 
 eureka:
   client:

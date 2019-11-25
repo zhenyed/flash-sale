@@ -8,6 +8,4 @@ public interface OrderService {
     CommonResult<OrderVO> getOrderInfo(Integer userId, Integer orderId);
 
     CommonResult<PreOrderVO> createPreOrder(Integer userId, Integer productId, Integer quantity);
-
-    CommonResult<OrderVO> createOrder(Integer userId, Integer productId, Integer quantity);
 }
