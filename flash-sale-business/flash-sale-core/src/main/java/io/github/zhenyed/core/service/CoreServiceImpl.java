@@ -6,8 +6,8 @@ import io.github.zhenyed.api.common.vo.CommonResult;
 import io.github.zhenyed.api.constant.CoreConstants;
 import io.github.zhenyed.api.product.vo.ProductVO;
 import io.github.zhenyed.api.rabbitmq.RabbitConfig;
-import org.redisson.api.RAtomicDouble;
 import org.redisson.api.RQueue;
+import org.redisson.api.RScript;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +15,9 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static io.github.zhenyed.api.common.vo.CommonResult.error;
 import static io.github.zhenyed.api.common.vo.CommonResult.success;
@@ -27,6 +27,14 @@ public class CoreServiceImpl implements CoreService {
 
     private static Logger log = LoggerFactory.getLogger(CoreServiceImpl.class);
 
+    private Map<Integer, Boolean> isFinish = new ConcurrentHashMap();
+
+    private static final String DECR_LUA = "if tonumber(redis.call(\"GET\",KEYS[1])) > 0 then\n"+
+                                           "     return redis.call(\"DECR\",KEYS[1])\n"+
+                                           "   else\n"+
+                                           "     return nil\n"+
+                                           "   end";
+
     @Autowired
     private ProductApiService productApiService;
     @Autowired
@@ -34,7 +42,6 @@ public class CoreServiceImpl implements CoreService {
     @Autowired
     private RedissonClient redissonClient;
 
-    private Map<Integer, Boolean> isFinish = new ConcurrentHashMap();
 
     @Override
     public CommonResult<String> createOrder(Integer userId, Integer productId, Integer quantity) {
@@ -66,18 +73,26 @@ public class CoreServiceImpl implements CoreService {
                     OrderErrorCodeEnum.ORDER_ITEM_ONLY_ONE.getMessage());
         }
 
-        // 3.2. 方式一减少库存
+        // 3.2. 方式一减少库存(decr)
 //        stock = redissonClient.getAtomicDouble(productStockKey);
 //        if (!stock.isExists() || stock.get() < 0 || stock.decrementAndGet() < 0) {
 //            isFinish.put(productId, Boolean.TRUE);
 //            return error(OrderErrorCodeEnum.CARD_ITEM_SKU_QUANTITY_NOT_ENOUGH.getCode(),
 //                    OrderErrorCodeEnum.CARD_ITEM_SKU_QUANTITY_NOT_ENOUGH.getMessage());
 //        }
-        // 3.2. 方式二减少库存
-        RQueue<Integer> stockQueue = redissonClient.getQueue(productStockList);
-        Integer poll = stockQueue.poll();
-        System.out.println(poll);
-        if (poll == null) {
+        // 3.2. 方式二减少库存(list)
+//        RQueue<Integer> stockQueue = redissonClient.getQueue(productStockList);
+//        Integer poll = stockQueue.poll();
+//        System.out.println(poll);
+//        if (poll == null) {
+//            isFinish.put(productId, Boolean.TRUE);
+//            return error(OrderErrorCodeEnum.CARD_ITEM_SKU_QUANTITY_NOT_ENOUGH.getCode(),
+//                    OrderErrorCodeEnum.CARD_ITEM_SKU_QUANTITY_NOT_ENOUGH.getMessage());
+//        }
+        // 3.2. 方式三减少库存(lua)
+        Long result = redissonClient.getScript()
+                .eval(RScript.Mode.READ_WRITE, DECR_LUA, RScript.ReturnType.INTEGER, Arrays.asList(productStockKey), Arrays.asList(productStockKey));
+        if (result == null) {
             isFinish.put(productId, Boolean.TRUE);
             return error(OrderErrorCodeEnum.CARD_ITEM_SKU_QUANTITY_NOT_ENOUGH.getCode(),
                     OrderErrorCodeEnum.CARD_ITEM_SKU_QUANTITY_NOT_ENOUGH.getMessage());
@@ -97,14 +112,18 @@ public class CoreServiceImpl implements CoreService {
 
     @Override
     public void prepareSetCache() {
-        // 方式一：Redis Integer decr
-//        redissonClient.getAtomicDouble("product:1001:stock").set(CoreConstants.stock);
-        // 方式二： Redis List
-        String productStockList = "product:1001:liststock";
-        redissonClient.getBucket(productStockList).delete();
-        for (int i = CoreConstants.stock; i > 0; i--) {
-            redissonClient.getQueue(productStockList).offer(i);
-        }
+        //prepare delete
+        redissonClient.getBucket("product:1001:stock").delete();
+        redissonClient.getBucket("product:1001:set").delete();
+        redissonClient.getBucket("product:1001:liststock").delete();
         isFinish.put(CoreConstants.productId, Boolean.FALSE);
+
+        // 方式一三：Redis Integer decr
+        redissonClient.getBucket("product:1001:stock").set(CoreConstants.stock);
+        // 方式二： Redis List
+//        String productStockList = "product:1001:liststock";
+//        for (int i = CoreConstants.stock; i > 0; i--) {
+//            redissonClient.getQueue(productStockList).offer(i);
+//        }
     }
 }

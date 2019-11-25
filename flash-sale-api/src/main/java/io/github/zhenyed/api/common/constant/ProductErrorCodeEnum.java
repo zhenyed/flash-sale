@@ -34,6 +34,8 @@ public enum ProductErrorCodeEnum {
     // ========== PRODUCT STOCK 模块 ==========
     PRODUCT_IN_A_SHORT_INVENTORY(1003004000, "商品库存不足"),
     PRODUCT_PARAMETER_ERROR(1003004001, "商品参数错误"),
+
+    PRODUCT_INVOKE_ERROR(1003005001, "商品服务调用失败"),
     ;
 
     private final int code;

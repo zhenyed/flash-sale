@@ -20,8 +20,6 @@ public class CoreController implements InitializingBean {
 
     @Autowired
     private CoreService coreService;
-    @Autowired
-    private RedissonClient redissonClient;
 
     @CheckLogin
     @PostMapping("create_order")

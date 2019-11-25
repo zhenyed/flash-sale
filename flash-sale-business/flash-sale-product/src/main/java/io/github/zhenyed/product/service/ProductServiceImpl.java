@@ -50,4 +50,21 @@ public class ProductServiceImpl implements ProductService {
         int i = productMapper.reduceStockById(productDO);
         return success(i > 0 ? Boolean.TRUE : Boolean.FALSE);
     }
+
+//    @Override
+//    public CommonResult<Boolean> resetProductQuantity(Integer id, Integer quantity) {
+//        ProductDO productDO = productMapper.selectById(id);
+//        if (productDO == null) {
+//            return error(ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getCode(),
+//                         ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getMessage());
+//        }
+//
+//        if (quantity < 0) {
+//            return error(ProductErrorCodeEnum.PRODUCT_PARAMETER_ERROR.getCode(),
+//                         ProductErrorCodeEnum.PRODUCT_PARAMETER_ERROR.getMessage());
+//        }
+//
+//        productDO.setQuantity(quantity);
+//        return success(productMapper.reduceStockById(productDO) > 0 ? Boolean.TRUE : Boolean.FALSE);
+//    }
 }
