@@ -183,13 +183,7 @@ public class OrderServiceImpl implements OrderService {
         Integer productId = coreModel.getProductId();
         Integer userId = coreModel.getUserId();
 
-        // 1. 减少 DB 库存(限制库存 > 0)
-        CommonResult<Boolean> reduceResult = productApiService.reduceQuantity(CoreConstants.productId, 1);
-        if (reduceResult.isError() || reduceResult.getData() == null || !reduceResult.getData().booleanValue()) {
-            return;
-        }
-
-        ProductVO productInfo = productApiService.getProductInfo(productId).getData();
+//        ProductVO productInfo = productApiService.getProductInfo(productId).getData();
         // 2. 生成订单
         OrderDO orderDO = new OrderDO();
         orderDO.setUserId(userId);
@@ -205,9 +199,17 @@ public class OrderServiceImpl implements OrderService {
                 .setProductId(productId)
                 .setQuantity(1)
                 .setSinglePrice(123)
+                .setTotalPrice(1 * 123);
 //                .setSinglePrice(productInfo.getPrice())
-                .setTotalPrice(1 * productInfo.getPrice());
+//                .setTotalPrice(1 * productInfo.getPrice());
         //前提：设置user product 唯一索引，避免两个订单同时生成
         orderItemMapper.insert(orderItemDO);
+
+        // 1. 减少 DB 库存(限制库存 > 0)
+        CommonResult<Boolean> reduceResult = productApiService.reduceQuantity(CoreConstants.productId, 1);
+        if (reduceResult.isError() || reduceResult.getData() == null || !reduceResult.getData().booleanValue()) {
+            return;
+        }
+
     }
 }
