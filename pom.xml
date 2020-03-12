@@ -73,6 +73,7 @@
                 <groupId>io.github.zhenyed</groupId>
                 <artifactId>flash-sale-api</artifactId>
                 <version>${project.version}</version>
+                <scope>compile</scope>
             </dependency>
 
             <dependency>
