@@ -73,7 +73,6 @@
                 <groupId>io.github.zhenyed</groupId>
                 <artifactId>flash-sale-api</artifactId>
                 <version>${project.version}</version>
-                <scope>compile</scope>
             </dependency>
 
             <dependency>
@@ -200,4 +199,15 @@
 <!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
