@@ -42,7 +42,6 @@
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
-                        <imageTag>latest</imageTag>
                     </imageTags>
                     <forceTags>true</forceTags>
                     <baseImage>${docker.baseImage}</baseImage>

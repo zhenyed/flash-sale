@@ -39,7 +39,6 @@
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
-                        <imageTag>latest</imageTag>
                     </imageTags>
                     <forceTags>true</forceTags>
                     <baseImage>${docker.baseImage}</baseImage>
@@ -55,6 +54,7 @@
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
+                    <pushImage>true</pushImage>
                 </configuration>
             </plugin>
         </plugins>
