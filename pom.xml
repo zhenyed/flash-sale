@@ -49,7 +49,7 @@
         <docker-maven-plugin.version>1.2.0</docker-maven-plugin.version>
         <docker.baseImage>openjdk:8-jre-alpine</docker.baseImage>
         <docker.volumes>/tmp</docker.volumes>
-        <docker.image.prefix>zhenyed</docker.image.prefix>
+        <docker.image.prefix>registry.cn-hangzhou.aliyuncs.com/zhenyed</docker.image.prefix>
         <docker.java.security.egd>-Djava.security.egd=file:/dev/./urandom</docker.java.security.egd>
         <docker.java.opts>-Xms128m -Xmx128m</docker.java.opts>
     </properties>
