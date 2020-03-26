@@ -54,7 +54,6 @@
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
-                    <pushImage>true</pushImage>
                 </configuration>
             </plugin>
         </plugins>
