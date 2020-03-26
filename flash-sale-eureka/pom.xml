@@ -38,7 +38,7 @@
                 <configuration>
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <imageTags>
-                        <imageTag>${project.version}</imageTag>
+                        <imageTag>${project.version}-${maven.build.timestamp}</imageTag>
                     </imageTags>
                     <forceTags>true</forceTags>
                     <baseImage>${docker.baseImage}</baseImage>
