@@ -1,5 +1,8 @@
 server:
   port: 8001
+  peer01: eureka-node-01.public-service.svc
+  peer02: eureka-node-02.public-service.svc
+  peer03: eureka-node-03.public-service.svc
 
 spring:
   application:

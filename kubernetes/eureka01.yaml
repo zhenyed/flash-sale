@@ -11,11 +11,12 @@ spec:
     targetPort: 8001
   selector:
     app: eureka
+  type: NodePort
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: eureka
+  name: eureka-node-01
 spec:
   replicas: 1
   template: 
