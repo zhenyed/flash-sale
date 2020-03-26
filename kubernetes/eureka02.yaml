@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: eureka
+  name: eureka-node-02
+spec:
+  ports:
+  - port: 8001
+    protocol: TCP
+    targetPort: 8001
+  selector:
+    app: eureka
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: eureka
+spec:
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: eureka
+    spec:
+      containers:
+      - name: eureka
+        image: registry.cn-hangzhou.aliyuncs.com/zhenyed/flash-sale-eureka:latest
+        ports:
+        - containerPort: 8001
+        env:
+        - name: SERVER_PEER01
+          value: eureka-node-01
+        - name: SERVER_PEER02
+          value: eureka-node-02
+        - name: SERVER_PEER03
+          value: eureka-node-03
+        - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+          value: "false"
+        - name: SPRING_PROFILES_ACTIVE
+          value: peer02

@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: flash-sale-eureka
+  profiles:
+    active: default
 
 eureka:
   server:
@@ -16,4 +18,51 @@ eureka:
     fetch-registry: false
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+---
+server:
+  port: 8001
 
+spring:
+  application:
+    name: flash-sale-eureka
+  profiles:
+    active: peer01
+
+eureka:
+  instance:
+    hostname: ${server.peer01}
+  client:
+    serviceUrl:
+      defaultZone: http://${server.peer02}:${server.port}/eureka/,http://${server.peer03}:${server.port}/eureka/
+---
+server:
+  port: 8001
+
+spring:
+  application:
+    name: flash-sale-eureka
+  profiles:
+    active: peer02
+
+eureka:
+  instance:
+    hostname: ${server.peer02}
+  client:
+    serviceUrl:
+      defaultZone: http://${server.peer01}:${server.port}/eureka/,http://${server.peer03}:${server.port}/eureka/
+---
+server:
+  port: 8001
+
+spring:
+  application:
+    name: flash-sale-eureka
+  profiles:
+    active: peer03
+
+eureka:
+  instance:
+    hostname: ${server.peer03}
+  client:
+    serviceUrl:
+      defaultZone: http://${server.peer01}:${server.port}/eureka/,http://${server.peer02}:${server.port}/eureka/
