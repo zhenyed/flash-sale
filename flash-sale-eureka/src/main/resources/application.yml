@@ -5,22 +5,28 @@ server:
   peer03: eureka-node-03.public-service.svc
 
 spring:
-  application:
-    name: flash-sale-eureka
+#  application:
+#    name: flash-sale-eureka
   profiles:
     active: default
 
-eureka:
-  server:
-    enable-self-preservation: false
-  instance:
-    hostname: localhost
+#eureka:
+#  server:
+#    enable-self-preservation: false
+#  instance:
+#    hostname: localhost
 #    lease-expiration-duration-in-seconds: 60
-  client:
-    register-with-eureka: false
-    fetch-registry: false
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+#  client:
+#    register-with-eureka: false
+#    fetch-registry: false
+#    service-url:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include: '*'
 ---
 server:
   port: 8001
@@ -34,9 +40,21 @@ spring:
 eureka:
   instance:
     hostname: ${server.peer01}
+    prefer-ip-address: false
+    instance-id: ${server.peer01}:${spring.application.name}:${server.port}
   client:
+    register-with-eureka: true
+    fetch-registry: true
+    prefer-same-zone-eureka: true
+    use-dns-for-fetching-service-urls: false
     serviceUrl:
       defaultZone: http://${server.peer02}:${server.port}/eureka/,http://${server.peer03}:${server.port}/eureka/
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include: '*'
 ---
 server:
   port: 8001
@@ -50,9 +68,21 @@ spring:
 eureka:
   instance:
     hostname: ${server.peer02}
+    prefer-ip-address: false
+    instance-id: ${server.peer02}:${spring.application.name}:${server.port}
   client:
+    register-with-eureka: true
+    fetch-registry: true
+    prefer-same-zone-eureka: true
+    use-dns-for-fetching-service-urls: false
     serviceUrl:
       defaultZone: http://${server.peer01}:${server.port}/eureka/,http://${server.peer03}:${server.port}/eureka/
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include: '*'
 ---
 server:
   port: 8001
@@ -66,6 +96,18 @@ spring:
 eureka:
   instance:
     hostname: ${server.peer03}
+    prefer-ip-address: false
+    instance-id: ${server.peer03}:${spring.application.name}:${server.port}
   client:
+    register-with-eureka: true
+    fetch-registry: true
+    prefer-same-zone-eureka: true
+    use-dns-for-fetching-service-urls: false
     serviceUrl:
       defaultZone: http://${server.peer01}:${server.port}/eureka/,http://${server.peer02}:${server.port}/eureka/
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include: '*'
